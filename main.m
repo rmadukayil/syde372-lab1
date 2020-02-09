@@ -69,10 +69,12 @@ sd_B = sd_contour(X1, Y1, meanB, covB);
 sd_C = sd_contour(X2,Y2,meanC,covC);
 sd_D = sd_contour(X2,Y2,meanD,covD);
 sd_E = sd_contour(X2,Y2,meanE,covE);
-%% MAP/MED/MICD
-%contour plot for MAP classifier, both cases
+
+%% MAP/MED/GED
+%contour plot for MAP,MED,GED classifiers, both cases
 [MAP_Z1, MAP_Z2] = MAP_classifier(X1, Y1, X2, Y2);
 [MED_Z1, MED_Z2] = MED_classifier(X1, Y1, X2, Y2);
+[GED_Z1, GED_Z2] = GED_classifier(X1, Y1, X2, Y2);
 
 %plotting
 %AB case
@@ -83,6 +85,7 @@ scatter(classB(1,:),classB(2,:));
 hold on;
 contour(X1,Y1,MAP_Z1,1, 'r'); %MAP contour is red
 contour(X1,Y1,MED_Z1,1, 'b'); %MED contour is blue
+contour(X1,Y1,GED_Z1,[1,2], 'k'); %GED contour is black
 contour(X1,Y1,sd_A,1, 'g');%ClassA sd contour is green
 contour(X1,Y1,sd_B,1, 'g');%ClassB sd contour is green
 %CDE case
@@ -95,10 +98,12 @@ scatter(classE(1,:),classE(2,:));
 hold on;
 contour(X2,Y2,MAP_Z2,10:90,'r'); %MAP contour is red
 contour(X2,Y2,MED_Z2,10:90, 'b'); %MED contour is blue
+contour(X1,Y1,GED_Z2,[3,4,5], 'k'); %MAP contour is red
 contour(X2,Y2,sd_C,1, 'g');%ClassC sd contour is green
 contour(X2,Y2,sd_D,1, 'g');%ClassD sd contour is green
 contour(X2,Y2,sd_E,1, 'g');%ClassE sd contour is green
 
+%confusion matrices for error analysis
 [MAP_AB_confusion, MAP_CDE_confusion] = MAP_error_analysis( );
 MAP_AB_error = trace(MAP_AB_confusion)/(nA+nB); %Case 1 experimental rate
 MAP_CDE_error = trace(MAP_CDE_confusion)/(nC+nD+nE); %Case 2 experimental rate
@@ -106,6 +111,10 @@ MAP_CDE_error = trace(MAP_CDE_confusion)/(nC+nD+nE); %Case 2 experimental rate
 [MED_AB_confusion, MED_CDE_confusion] = MED_error_analysis( );
 MED_AB_error = trace(MED_AB_confusion)/(nA+nB); %Case 1 experimental rate
 MED_CDE_error = trace(MED_CDE_confusion)/(nC+nD+nE); %Case 2 experimental rate
+
+[GED_AB_confusion, GED_CDE_confusion] = GED_error_analysis( );
+GED_AB_error = trace(GED_AB_confusion)/(nA+nB); %Case 1 experimental rate
+GED_CDE_error = trace(GED_CDE_confusion)/(nC+nD+nE); %Case 2 experimental rate
 
 %% NN/KNN
 [NN_Z1, NN_Z2] = NN_classifier(X1, Y1, X2, Y2);
