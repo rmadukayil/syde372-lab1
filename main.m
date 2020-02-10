@@ -1,7 +1,7 @@
-%% Initialize Variables
 clear all;
 close all;
 
+%% Initialize Variables
 % Classes
 global classA classB classC classD classE classes;
 classA = csvread('classA');
@@ -98,7 +98,7 @@ scatter(classE(1,:),classE(2,:));
 hold on;
 contour(X2,Y2,MAP_Z2,10:90,'r'); %MAP contour is red
 contour(X2,Y2,MED_Z2,10:90, 'b'); %MED contour is blue
-contour(X1,Y1,GED_Z2,[3,4,5], 'k'); %MAP contour is red
+contour(X1,Y1,GED_Z2,[3,4,5], 'k'); %MAP contour is black
 contour(X2,Y2,sd_C,1, 'g');%ClassC sd contour is green
 contour(X2,Y2,sd_D,1, 'g');%ClassD sd contour is green
 contour(X2,Y2,sd_E,1, 'g');%ClassE sd contour is green
@@ -118,6 +118,8 @@ GED_CDE_error = trace(GED_CDE_confusion)/(nC+nD+nE); %Case 2 experimental rate
 
 %% NN/KNN
 [NN_Z1, NN_Z2] = NN_classifier(X1, Y1, X2, Y2);
+[KNN_Z1, KNN_Z2] = knn_classifier(X1, Y1, X2, Y2);
+
 
 %plotting
 %AB case
@@ -127,6 +129,7 @@ hold on;
 scatter(classB(1,:),classB(2,:));
 hold on;
 contour(X1,Y1,NN_Z1,1, 'r'); %NN contour is red
+contour(X1,Y1,KNN_Z1,1, 'b') %KNN contour is blue
 contour(X1,Y1,sd_A,1, 'g');%ClassA sd contour is green
 contour(X1,Y1,sd_B,1, 'g');%ClassB sd contour is green
 
@@ -139,26 +142,49 @@ hold on;
 scatter(classE(1,:),classE(2,:));
 hold on;
 contour(X2,Y2,NN_Z2,10:90,'r'); %NN contour is red
+contour(X2,Y2,KNN_Z2,10:90,'b'); %KNN contour is red
+
 contour(X2,Y2,sd_C,1, 'g');%ClassC sd contour is green
 contour(X2,Y2,sd_D,1, 'g');%ClassD sd contour is green
 contour(X2,Y2,sd_E,1, 'g');%ClassE sd contour is green
-[NN_AB_confusion,NN_CDE_confusion]=NN_error_analysis(X1,X2,Y1,Y2,NN_Z1,NN_Z2);
 
-%Plot confus matric AB
+% Performing error analysis with confusion matrices
+[NN_AB_confusion,NN_CDE_confusion]=NN_error_analysis(X1,X2,Y1,Y2,NN_Z1,NN_Z2);
+[KNN_AB_confusion,KNN_CDE_confusion]=KNN_error_analysis(X1,X2,Y1,Y2,KNN_Z1,KNN_Z2);
+
+%Plot confusion matrix AB
 figure(5);
 label = {'Class A','Class B'};
 label = categorical(label);
 NN_AB = confusionchart(NN_AB_confusion,label);
 cm_matrix_AB = NN_AB.NormalizedValues;
-%NN Error for AB
-NN_AB_error = (cm_matrix_AB(2,1)+ cm_matrix_AB(1,2))/(200+200);
 
-%Plot confus Matrix CDE
 figure(6);
+label = {'Class A','Class B'};
+label = categorical(label);
+KNN_AB = confusionchart(KNN_AB_confusion,label); %% conf matrix for KNN not right - fix later
+cm_matrix_AB_KNN = KNN_AB.NormalizedValues;
+
+%NN Error for AB
+NN_AB_error = (cm_matrix_AB(2,1)+ cm_matrix_AB(1,2))/(200+200); % maybe add variables instead of hard-coding sizes
+
+%KNN error for A, B
+KNN_AB_error =(cm_matrix_AB_KNN(2,1) + cm_matrix_AB_KNN(1,2))/(nA + nB);
+
+%Plot confusion matrix CDE for NN
+figure(7);
 label = {'Class C','Class D','Class E'};
 label = categorical(label);
 NN_CDE = confusionchart(NN_CDE_confusion,label);
 cm_matrix_CDE = NN_CDE.NormalizedValues;
+
+%Plot confusion matrix CDE for KNN
+figure(8);
+label = {'Class C','Class D','Class E'};
+label = categorical(label);
+KNN_CDE = confusionchart(KNN_CDE_confusion,label);
+cm_matrix_CDE_KNN = KNN_CDE.NormalizedValues;
+
 %NN Error for CDE
 NN_CDE_error = (cm_matrix_CDE(2,1)+ cm_matrix_CDE(3,1)+ cm_matrix_CDE(1,2)+cm_matrix_CDE(3,2)+cm_matrix_CDE(1,3)+cm_matrix_CDE(2,3))/(100+200+150);
-
+KNN_CDE_error = (cm_matrix_CDE_KNN(2,1)+ cm_matrix_CDE_KNN(3,1)+ cm_matrix_CDE_KNN(1,2)+cm_matrix_CDE_KNN(3,2)+cm_matrix_CDE_KNN(1,3)+cm_matrix_CDE_KNN(2,3))/(nC+nD+nE);
