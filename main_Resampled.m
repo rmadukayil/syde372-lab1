@@ -54,12 +54,13 @@ classC_test = csvread('classC_test');
 classD_test = csvread('classD_test');
 classE_test = csvread('classE_test');
 class_tests = [classA_test, classB_test, classC_test, classD_test, classE_test];
-arr_x = horzcat(classA(1,:),classB(1,:),classA_test(1,:),classB_test(1,:));
-arr_y = horzcat(classA(2,:),classB(2,:),classA_test(2,:),classB_test(2,:));
-global_min = floor(min(min(arr_x,arr_y)))-5;
+arr_x_AB = horzcat(classA(1,:),classB(1,:),classA_test(1,:),classB_test(1,:));
+arr_y_AB = horzcat(classA(2,:),classB(2,:),classA_test(2,:),classB_test(2,:));
+global_min = floor(min(min(arr_x_A,arr_y)))-5;
 global_max = ceil(max(max(arr_x,arr_y)))+5;
 x1 = global_min:0.1:global_max;
 [X1, Y1] = ndgrid(x1); 
+
 
 %% Unit Standard Deviation
 sd_A = sd_contour(X1, Y1, meanA, covA);

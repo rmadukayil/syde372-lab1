@@ -54,15 +54,17 @@ classC_test = csvread('classC_test');
 classD_test = csvread('classD_test');
 classE_test = csvread('classE_test');
 class_tests = [classA_test, classB_test, classC_test, classD_test, classE_test];
-
-
-
-
-x1 = -2:0.1:22;
-y1 = -2:0.1:22;  %TODO: do we need y1 if it's not used in ndgrid?
+arr_x_AB = horzcat(classA(1,:),classB(1,:),classA_test(1,:),classB_test(1,:));
+arr_y_AB = horzcat(classA(2,:),classB(2,:),classA_test(2,:),classB_test(2,:));
+arr_x_CDE = horzcat(classC(1,:),classD(1,:),classE(1,:),classC_test(1,:),classD_test(1,:),classE_test(1,:));
+arr_y_CDE = horzcat(classC(2,:),classD(2,:),classE(2,:),classC_test(2,:),classD_test(2,:),classE_test(2,:));
+global_min_AB = floor(min(min(arr_x_AB,arr_y_AB)))-1;
+global_max_AB = ceil(max(max(arr_x_AB,arr_y_AB)))+1;
+x1 = global_min_AB:0.1:global_max_AB;
 [X1, Y1] = ndgrid(x1); 
-x2 = -5:0.1:25;
-y2 = -5:0.1:25;
+global_min_CDE = floor(min(min(arr_x_CDE,arr_y_CDE )))-1;
+global_max_CDE = ceil(max(max(arr_x_CDE,arr_y_CDE )))+1;
+x2 = global_min_CDE:0.1:global_max_CDE;
 [X2, Y2] = ndgrid(x2);
 
 %% Unit Standard Deviation
@@ -88,8 +90,10 @@ hold on;
 contour(X1,Y1,MAP_Z1,1, 'r'); %MAP contour is red
 contour(X1,Y1,MED_Z1,1, 'b'); %MED contour is blue
 contour(X1,Y1,GED_Z1,1, 'k'); %GED contour is black
-contour(X1,Y1,sd_A,1, 'g');%ClassA sd contour is green
-contour(X1,Y1,sd_B,1, 'g');%ClassB sd contour is green
+contour(X1,Y1,sd_A,1,'LineColor','#355E3B');%ClassA sd contour is green
+contour(X1,Y1,sd_B,1,'LineColor', '#355E3B');%ClassB sd contour is green
+title('MAP/MED/GED for Classes A and B');
+legend('Class A','Class B','MAP', 'MED', 'GED');
 %CDE case
 figure(2);
 scatter(classC(1,:), classC(2,:));
@@ -98,13 +102,14 @@ scatter(classD(1,:),classD(2,:));
 hold on;
 scatter(classE(1,:),classE(2,:));
 hold on;
-contour(X2,Y2,MAP_Z2,10:90,'r'); %MAP contour is red
-contour(X2,Y2,MED_Z2,10:90, 'b'); %MED contour is blue
-contour(X2,Y2,GED_Z2,10:90, 'k'); %GED contour is black
-contour(X2,Y2,sd_C,1, 'g');%ClassC sd contour is green
-contour(X2,Y2,sd_D,1, 'g');%ClassD sd contour is green
-contour(X2,Y2,sd_E,1, 'g');%ClassE sd contour is green
-
+contour(X2,Y2,MAP_Z2,[5,50,100],'r'); %MAP contour is red
+contour(X2,Y2,MED_Z2,[5,50,100], 'b'); %MED contour is blue
+contour(X2,Y2,GED_Z2,[5,50,100], 'k'); %GED contour is black
+contour(X2,Y2,sd_C,1,'LineColor', '#355E3B');%ClassC sd contour is green
+contour(X2,Y2,sd_D,1,'LineColor', '#355E3B');%ClassD sd contour is green
+contour(X2,Y2,sd_E,1,'LineColor', '#355E3B');%ClassE sd contour is green
+title('MAP/MED/GED for Classes C, D and E');
+legend('Class C','Class D','Class E','MAP', 'MED', 'GED');
 %confusion matrices for error analysis
 [MAP_AB_confusion, MAP_CDE_confusion] = MAP_error_analysis( );
 MAP_AB_error = 1-(trace(MAP_AB_confusion)/(nA+nB)); %Case 1 experimental rate
@@ -132,9 +137,10 @@ scatter(classB(1,:),classB(2,:));
 hold on;
 contour(X1,Y1,NN_Z1,1, 'r'); %NN contour is red
 contour(X1,Y1,KNN_Z1,1, 'b') %KNN contour is blue
-contour(X1,Y1,sd_A,1, 'g');%ClassA sd contour is green
-contour(X1,Y1,sd_B,1, 'g');%ClassB sd contour is green
-
+contour(X1,Y1,sd_A,1,'LineColor', '#355E3B');%ClassA sd contour is green
+contour(X1,Y1,sd_B,1,'LineColor', '#355E3B');%ClassB sd contour is green
+title('NN/kNN for Classes A and B');
+legend('Class A','Class B','NN', 'kNN');
 %CDE case
 figure(4);
 scatter(classC(1,:), classC(2,:));
@@ -143,13 +149,14 @@ scatter(classD(1,:),classD(2,:));
 hold on;
 scatter(classE(1,:),classE(2,:));
 hold on;
-contour(X2,Y2,NN_Z2,10:90,'r'); %NN contour is red
-contour(X2,Y2,KNN_Z2,10:90,'b'); %KNN contour is red
+contour(X2,Y2,NN_Z2,[5,50,100],'r'); %NN contour is red
+contour(X2,Y2,KNN_Z2,[5,50,100],'b'); %KNN contour is red
 
-contour(X2,Y2,sd_C,1, 'g');%ClassC sd contour is green
-contour(X2,Y2,sd_D,1, 'g');%ClassD sd contour is green
-contour(X2,Y2,sd_E,1, 'g');%ClassE sd contour is green
-
+contour(X2,Y2,sd_C,1,'LineColor', '#355E3B');%ClassC sd contour is green
+contour(X2,Y2,sd_D,1,'LineColor', '#355E3B');%ClassD sd contour is green
+contour(X2,Y2,sd_E,1,'LineColor', '#355E3B');%ClassE sd contour is green
+title('NN/kNN for Classes C, D and E');
+legend('Class C','Class D','Class E','NN', 'kNN');
 % Performing error analysis with confusion matrices
 [NN_AB_confusion,NN_CDE_confusion]=NN_error_analysis(X1,X2,Y1,Y2,NN_Z1,NN_Z2);
 [KNN_AB_confusion,KNN_CDE_confusion]=KNN_error_analysis(X1,X2,Y1,Y2,KNN_Z1,KNN_Z2);
@@ -160,12 +167,14 @@ label = {'Class A','Class B'};
 label = categorical(label);
 NN_AB = confusionchart(NN_AB_confusion,label);
 cm_matrix_AB = NN_AB.NormalizedValues;
+title('NN Confusion Matrix for Classes A and B');
 
 figure(6);
 label = {'Class A','Class B'};
 label = categorical(label);
 KNN_AB = confusionchart(KNN_AB_confusion,label); %% conf matrix for KNN not right - fix later
 cm_matrix_AB_KNN = KNN_AB.NormalizedValues;
+title('kNN Confusion Matrix for Classes A and B');
 
 %NN Error for AB
 NN_AB_error = (cm_matrix_AB(2,1)+ cm_matrix_AB(1,2))/(200+200); % maybe add variables instead of hard-coding sizes
@@ -179,14 +188,14 @@ label = {'Class C','Class D','Class E'};
 label = categorical(label);
 NN_CDE = confusionchart(NN_CDE_confusion,label);
 cm_matrix_CDE = NN_CDE.NormalizedValues;
-
+title('NN Confusion Matrix for Classes C, D and E');
 %Plot confusion matrix CDE for KNN
 figure(8);
 label = {'Class C','Class D','Class E'};
 label = categorical(label);
 KNN_CDE = confusionchart(KNN_CDE_confusion,label);
 cm_matrix_CDE_KNN = KNN_CDE.NormalizedValues;
-
+title('kNN Confusion Matrix for Classes C, D and E');
 %NN Error for CDE
 NN_CDE_error = (cm_matrix_CDE(2,1)+ cm_matrix_CDE(3,1)+ cm_matrix_CDE(1,2)+cm_matrix_CDE(3,2)+cm_matrix_CDE(1,3)+cm_matrix_CDE(2,3))/(100+200+150);
 KNN_CDE_error = (cm_matrix_CDE_KNN(2,1)+ cm_matrix_CDE_KNN(3,1)+ cm_matrix_CDE_KNN(1,2)+cm_matrix_CDE_KNN(3,2)+cm_matrix_CDE_KNN(1,3)+cm_matrix_CDE_KNN(2,3))/(nC+nD+nE);
