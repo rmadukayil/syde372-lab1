@@ -9,9 +9,9 @@ function [Z1, Z2] = GED_classifier(X1, Y1, X2, Y2)
     for i=1:numel(X1)
         classA = GED(meanA, meanB, covA, covB, [X1(i) Y1(i)]);
         if classA
-            Z1(i) = 1; %%classify as A
+            Z1(i) = 10; %%classify as A
         else
-            Z1(i) = 2; %%classify as B
+            Z1(i) = 1; %%classify as B
         end
     end
 
@@ -23,11 +23,11 @@ function [Z1, Z2] = GED_classifier(X1, Y1, X2, Y2)
         DcloserE = GED(meanD, meanE, covD, covE, [X2(i) Y2(i)]);
         
         if CcloserD && CcloserE
-            Z2(i) = 3; %%classify as class C
+            Z2(i) = 100; %%classify as class C
         elseif ~CcloserD && DcloserE
-            Z2(i) = 4; %%classify as class D
+            Z2(i) = 5; %%classify as class D
         elseif ~CcloserE && ~DcloserE
-            Z2(i) = 5; %%classify as class E
+            Z2(i) = 50; %%classify as class E
         end
     end
 end

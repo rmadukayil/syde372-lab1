@@ -1,4 +1,4 @@
-function classified_data_NN = classify_data_NN(class_test, X, Y, Z)
+function classified_data_KNN = classify_data_KNN(class_test, X, Y, Z)
     X_transform = X(:);
     Y_transform = Y(:);
     Z_transform = Z(:);
@@ -10,5 +10,5 @@ function classified_data_NN = classify_data_NN(class_test, X, Y, Z)
         data_mapped(2,col) = Y_transform(row(1,1),1);
         data_mapped(3,col) = Z_transform(row(1,1),1);
     end
-    classified_data_NN = data_mapped;
+    classified_data_KNN = data_mapped;
 end

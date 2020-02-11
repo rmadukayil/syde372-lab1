@@ -11,7 +11,7 @@ function [Z1, Z2] = KNN_classifier(X1, Y1, X2, Y2)
         kmeanA = mean(sortedA(1:5)); % take 5 lowest values and average them
         kmeanB = mean(sortedB(1:5));
         
-        if kmeanA < kmeanB
+        if kmeanA > kmeanB
             Z1(i) = 10; %%classify as B
         else
             Z1(i) = 1; %%classify as A
