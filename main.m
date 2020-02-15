@@ -83,9 +83,11 @@ scatter(classA(1,:), classA(2,:));
 hold on;
 scatter(classB(1,:),classB(2,:));
 hold on;
-contour(X1,Y1,sd_A,1,'LineColor','#355E3B');
-contour(X1,Y1,sd_B,1,'LineColor', '#355E3B');
+contour(X1,Y1,sd_A,1,'g');
+contour(X1,Y1,sd_B,1,'g');
 title('Classes A and B');
+xlabel('x1');
+ylabel('x2');
 legend('Class A','Class B');
 
 %Plot C,D and E Clusters
@@ -96,10 +98,12 @@ scatter(classD(1,:),classD(2,:));
 hold on;
 scatter(classE(1,:),classE(2,:));
 hold on;
-contour(X2,Y2,sd_C,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_D,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_E,1,'LineColor', '#355E3B');
+contour(X2,Y2,sd_C,1,'g');
+contour(X2,Y2,sd_D,1,'g');
+contour(X2,Y2,sd_E,1,'g');
 title('Classes C, D, and E');
+xlabel('x1');
+ylabel('x2');
 legend('Class C','Class D','Class E');
 %% MAP/MED/GED
 %contour plot for MAP,MED,GED classifiers, both cases
@@ -117,9 +121,11 @@ hold on;
 contour(X1,Y1,MAP_Z1,1, 'r'); %MAP contour is red
 contour(X1,Y1,MED_Z1,1, 'b'); %MED contour is blue
 contour(X1,Y1,GED_Z1,1, 'k'); %GED contour is black
-contour(X1,Y1,sd_A,1,'LineColor','#355E3B');
-contour(X1,Y1,sd_B,1,'LineColor', '#355E3B');
+contour(X1,Y1,sd_A,1,'g');
+contour(X1,Y1,sd_B,1,'g');
 title('MAP/MED/GED for Classes A and B');
+xlabel('x1');
+ylabel('x2');
 legend('Class A','Class B','MAP', 'MED', 'GED');
 
 %CDE case
@@ -135,9 +141,11 @@ legend('Class C','Class D','Class E');
 contour(X2,Y2,MAP_Z2,[5,50,100],'r'); %MAP contour is red
 contour(X2,Y2,MED_Z2,[5,50,100], 'b'); %MED contour is blue
 contour(X2,Y2,GED_Z2,[5,50,100], 'k'); %GED contour is black
-contour(X2,Y2,sd_C,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_D,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_E,1,'LineColor', '#355E3B');
+contour(X2,Y2,sd_C,1,'g');
+contour(X2,Y2,sd_D,1,'g');
+contour(X2,Y2,sd_E,1,'g');
+xlabel('x1');
+ylabel('x2');
 title('MAP/MED/GED for Classes C, D and E');
 legend('Class C','Class D','Class E','MAP', 'MED', 'GED');
 
@@ -169,9 +177,11 @@ scatter(classB(1,:),classB(2,:));
 hold on;
 contour(X1,Y1,NN_Z1,1, 'r'); %NN contour is red
 contour(X1,Y1,KNN_Z1,1, 'b') %KNN contour is blue
-contour(X1,Y1,sd_A,1,'LineColor', '#355E3B');
-contour(X1,Y1,sd_B,1,'LineColor', '#355E3B');
+contour(X1,Y1,sd_A,1,'g');
+contour(X1,Y1,sd_B,1,'g');
 title('NN/kNN for Classes A and B');
+xlabel('x1');
+ylabel('x2');
 legend('Class A','Class B','NN', 'kNN');
 
 %CDE case
@@ -184,11 +194,12 @@ scatter(classE(1,:),classE(2,:));
 hold on;
 contour(X2,Y2,NN_Z2,[5,50,100],'r'); %NN contour is red
 contour(X2,Y2,KNN_Z2,[5,50,100],'b'); %KNN contour is blue
-
-contour(X2,Y2,sd_C,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_D,1,'LineColor', '#355E3B');
-contour(X2,Y2,sd_E,1,'LineColor', '#355E3B');
+contour(X2,Y2,sd_C,1,'g');
+contour(X2,Y2,sd_D,1,'g');
+contour(X2,Y2,sd_E,1,'g');
 title('NN/kNN for Classes C, D and E');
+xlabel('x1');
+ylabel('x2');
 legend('Class C','Class D','Class E','NN', 'kNN');
 
 % Performing error analysis with confusion matrices
